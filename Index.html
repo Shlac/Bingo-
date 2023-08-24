@@ -61,8 +61,8 @@
     <div class="numeros-anteriores" id="numeros-anteriores"></div>
   </div>
   <script>
-    const numerosGenerados = new Set();
     const maximoNumeros = 90;
+    const numerosGenerados = new Set();
 
     function generarNumeroAleatorio() {
       if (numerosGenerados.size === maximoNumeros) {
@@ -70,25 +70,21 @@
         return;
       }
 
-      let numeroAleatorio;
-      do {
-        numeroAleatorio = Math.floor(Math.random() * maximoNumeros) + 1;
-      } while (numerosGenerados.has(numeroAleatorio));
+      const tiempoActual = new Date().getTime();
+      const semilla = tiempoActual + Math.random() * 1000;
+      const numeroAleatorio = Math.floor(Math.abs(Math.sin(semilla) * maximoNumeros)) + 1;
 
-      numerosGenerados.add(numeroAleatorio);
+      if (!numerosGenerados.has(numeroAleatorio)) {
+        numerosGenerados.add(numeroAleatorio);
 
-      const numeroActualDiv = document.getElementById('numero-actual');
-      const numerosAnterioresDiv = document.getElementById('numeros-anteriores');
+        const numeroActualDiv = document.getElementById('numero-actual');
+        const numerosAnterioresDiv = document.getElementById('numeros-anteriores');
 
-      numeroActualDiv.textContent = numeroAleatorio;
-      numerosAnterioresDiv.innerHTML += `${numeroAleatorio}, `;
-
-      reproducirVoz(numeroAleatorio);
-    }
-
-    function reproducirVoz(texto) {
-      const utterance = new SpeechSynthesisUtterance(texto);
-      window.speechSynthesis.speak(utterance);
+        numeroActualDiv.textContent = numeroAleatorio;
+        numerosAnterioresDiv.innerHTML += `${numeroAleatorio}, `;
+      } else {
+        generarNumeroAleatorio(); // Intentar nuevamente si ya se generó ese número
+      }
     }
   </script>
 </body>
