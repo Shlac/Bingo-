@@ -82,9 +82,16 @@
 
         numeroActualDiv.textContent = numeroAleatorio;
         numerosAnterioresDiv.innerHTML += `${numeroAleatorio}, `;
+
+        reproducirVoz(numeroAleatorio);
       } else {
         generarNumeroAleatorio(); // Intentar nuevamente si ya se generó ese número
       }
+    }
+
+    function reproducirVoz(texto) {
+      const utterance = new SpeechSynthesisUtterance(texto);
+      window.speechSynthesis.speak(utterance);
     }
   </script>
 </body>
